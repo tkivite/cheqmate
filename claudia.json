@@ -1,0 +1,10 @@
+{
+  "lambda": {
+    "role": "cheqmate-executor",
+    "name": "cheqmate",
+    "region": "us-east-2"
+  },
+  "api": {
+    "id": "hgg16crpxb"
+  }
+}

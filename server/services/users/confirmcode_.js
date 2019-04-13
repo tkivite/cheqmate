@@ -1,0 +1,168 @@
+'use strict';
+const mysqlpool = require('../../../configs/mysqlconfig');
+
+let responseMessage = {
+    status_msg: "false",
+    status_code: 400
+}
+// Register new users
+function confirmCode(request, response) {
+    if (!validInput(request)) {
+        responseMessage.status_code = 400;
+        console.log("invalid data")
+        response.status(responseMessage.status_code).send(responseMessage)
+
+    } else {
+        let
+            u_token_v = request.headers.user_token,
+            ud_token_v = request.headers.device_token,
+            u_id_v = 0,
+            ud_id_v = 0;
+
+        if (!u_token_v || u_token_v == '' || ((u_token_v).trim()).length < 1) {
+            console.log("Checking uname");
+            responseMessage.status_msg = 'Invalid_user_token';
+            response.status(400).send(responseMessage);
+            return;
+        } else if (!ud_token_v || ud_token_v == '' || ((ud_token_v).trim()).length < 1) {
+            console.log("Checking uname");
+            responseMessage.status_msg = 'Invalid_user_device_token';
+            response.status(400).send(responseMessage);
+            return;
+        } else {
+            mysqlpool.getConnection(function (err, conn) {
+                if (err) {
+                    console.error('error connecting: ' + err.stack);
+                    responseMessage.status_msg = "Error connecting to database";
+                    responseMessage.status_code = 400;
+                    console.log("invalid data");
+                    response.status(400).send(responseMessage);
+                    return;
+
+                } else {
+                    conn.beginTransaction(function (err) {
+
+                        if (err) {
+                            throw err;
+                        } else {
+                            conn.query('select * from users where u_token = ?  and u_state = 1 limit 1', [u_token_v],
+                                function (err, result) {
+                                    if (err) {
+                                        conn.rollback(function () {
+                                            throw err;
+                                        });
+                                    } else if (result.length == 0) {
+
+                                        responseMessage.status_msg = 'User_not_exists';
+                                        responseMessage.status_code = 404;
+                                        response.status(404).send(responseMessage);
+                                        conn.release();
+                                        return;
+                                    } else {
+                                        console.log(result);
+                                        u_id_v = result[0].u_id;
+
+
+                                        conn.query('select * from user_devices where ud_token = ?  and ud_state = 1  and ud_logout = 0 limit 1', [ud_token_v],
+                                            function (err, result) {
+                                                if (err) {
+                                                    conn.rollback(function () {
+                                                        throw err;
+                                                    });
+                                                } else if (result.length == 0) {
+
+                                                    responseMessage.status_msg = 'User_device_not_exists';
+                                                    responseMessage.status_code = 404;
+                                                    response.status(404).send(responseMessage);
+                                                    conn.release();
+                                                    return;
+                                                } else {
+                                                    ud_id_v = result[0].ud_id;
+
+
+
+                                                    conn.query('select * from users where u_id = ? and u_confirm_phone = 1', [u_id_v], function (err, result) {
+                                                        if (err) {
+                                                            conn.rollback(function () {
+                                                                throw err;
+                                                            });
+                                                        } else if (result.length > 0) {
+
+                                                            responseMessage.status_msg = 'This_account_already_confirmed';
+                                                            responseMessage.status_code = 409;
+                                                            response.status(409).send(responseMessage);
+                                                            conn.release();
+                                                            return;
+                                                        } else {
+
+                                                            conn.query('update users set u_confirm_phone = 1 where u_id = ?', [u_id_v], function (err4) {
+
+                                                                if (err4) {
+                                                                    conn.rollback(function () {
+                                                                        throw err4;
+                                                                    });
+                                                                } else {
+                                                                    conn.query('update user_devices set ud_first_active = now() where ud_id = ? ', [ud_id_v], function (err) {
+
+                                                                        if (err) {
+                                                                            conn.rollback(function () {
+                                                                                throw err;
+                                                                            });
+                                                                        } else {
+
+                                                                            conn.commit(function (err) {
+                                                                                if (err) {
+                                                                                    conn.rollback(function () {
+                                                                                        throw err;
+                                                                                    });
+                                                                                    // responseMessage.status_msg = 'The_Record_has_been_successfully_saved';
+                                                                                    //responseMessage.status_code = 201;
+                                                                                    response.status(400).send(responseMessage);
+                                                                                    conn.release();
+                                                                                    return;
+
+
+                                                                                } else {
+                                                                                    responseMessage.status_msg = 'true';
+                                                                                    responseMessage.status_code = 201;
+                                                                                    response.status(201).send(responseMessage);
+                                                                                    console.log('Transaction Complete.');
+                                                                                    conn.release();
+                                                                                    return;
+                                                                                }
+                                                                            });
+                                                                        }
+
+
+
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                    }
+                                });
+                        }
+                    });
+                }
+            });
+        }
+    }
+}
+
+function validInput(request) {
+    console.log(request.headers);
+    if (!request.headers) {
+        responseMessage.status_msg = "false";
+        return false;
+    } else {
+        return true;
+    }
+
+}
+
+module.exports = {
+    confirmCode: confirmCode
+};
