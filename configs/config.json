@@ -1,0 +1,26 @@
+{
+    "development": {
+        "username": "root",
+        "password": "1SUPERtitus",
+        "database": "cheqmate_test",
+        "host": "localhost",
+        "dialect": "mysql",
+        "multipleStatements": true
+    },
+    "test": {
+        "username": "tkivite",
+        "password": "1SUPERtitus",
+        "database": "cheqmate_test",
+        "host": "69.164.212.85",
+        "dialect": "mysql",
+        "multipleStatements": true
+    },
+    "production": {
+        "username": "tkivite",
+        "password": "1SUPERtitus",
+        "database": "cheqmate_test",
+        "host": "69.164.212.85",
+        "dialect": "mysql",
+        "multipleStatements": true
+    }
+}
