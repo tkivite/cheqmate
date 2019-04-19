@@ -7,6 +7,9 @@ const environment = process.env.NODE_ENV || 'development';
 const environmentConfig = config[environment];
 const finalConfig = _.merge(defaultConfig, environmentConfig);
 
+console.log('node process env NODE_ENV:');
+console.log(environment);
+
 /*
 let pool = mysql.createPool({
     host: '69.164.212.85',
@@ -27,5 +30,4 @@ let getConnection = function (callback) {
         callback(err, connection);
     });
 };
-console.log(finalConfig);
 exports.getConnection = getConnection;

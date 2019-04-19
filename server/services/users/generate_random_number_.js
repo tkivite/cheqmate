@@ -47,14 +47,14 @@ function generateRandomNumber(request, response) {
                     response.status(400).send(responseMessage);
                     return;
                 } else {
-                    console.log("get connection");
+
                     conn.beginTransaction(function (err) {
                         if (err) {
                             throw err;
                         } else {
                             conn.query("select u_id from users where u_token = ? and u_state= 1 limit 1", [u_token_v],
                                 function (err, result) {
-                                    console.log(result);
+
                                     if (err) {
                                         conn.rollback(function () {
                                             throw err;
@@ -65,7 +65,7 @@ function generateRandomNumber(request, response) {
 
                                         conn.query("select * from users where u_id=? and u_token=? and u_state=1 and (u_confirm_phone=1 or u_confirm_email=1) limit 1", [u_id_v, u_token_v],
                                             function (err, result) {
-                                                console.log(result);
+
                                                 if (err) {
                                                     conn.rollback(function () {
                                                         throw err;
@@ -80,7 +80,7 @@ function generateRandomNumber(request, response) {
                                                     u_id_v = result[0].u_id;
                                                     conn.query("select * from user_devices where ud_user_id=? and ud_token=? and ud_logout=0 limit 1", [u_id_v, ud_token_v],
                                                         function (err, result) {
-                                                            console.log(result);
+
                                                             if (err) {
                                                                 conn.rollback(function () {
                                                                     throw err;
@@ -94,7 +94,7 @@ function generateRandomNumber(request, response) {
                                                             } else {
                                                                 conn.query("select cs_enable_chq_validation from chqmate_settings", [],
                                                                     function (err, result) {
-                                                                        console.log(result);
+
                                                                         if (err) {
                                                                             conn.rollback(function () {
                                                                                 throw err;
@@ -103,14 +103,11 @@ function generateRandomNumber(request, response) {
                                                                             if (result.length > 0) {
                                                                                 cs_enable_chq_validation_v = result[0].cs_enable_chq_validation;
                                                                             }
-                                                                            //console.log(result);
-                                                                            //  console.log(cs_enable_chq_validation_v);
 
                                                                             if (cs_enable_chq_validation_v == 1) {
 
                                                                                 conn.query("select ud_id from user_devices where ud_token=? and ud_state=1 and ud_logout=0", [ud_token_v],
                                                                                     function (err, result) {
-                                                                                        console.log(result);
                                                                                         if (err) {
                                                                                             conn.rollback(function () {
                                                                                                 throw err;
@@ -124,7 +121,7 @@ function generateRandomNumber(request, response) {
 
                                                                                             conn.query("select grn_random_num from generate_random_num where grn_user_id=? and grn_user_device_id=? and grn_used=0 limit 1;", [u_id_v, ud_device_id_v],
                                                                                                 function (err, result) {
-                                                                                                    console.log("checkig" + result);
+
                                                                                                     if (err) {
                                                                                                         conn.rollback(function () {
                                                                                                             throw err;
@@ -163,7 +160,6 @@ function generateRandomNumber(request, response) {
 
                                                                                                                             } else {
                                                                                                                                 response.status(responseMessage.status_code).send(responseMessage);
-                                                                                                                                console.log('Transaction Complete.');
                                                                                                                                 conn.release();
                                                                                                                                 return;
                                                                                                                             }
