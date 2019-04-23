@@ -1,8 +1,7 @@
 'use strict';
 'use strict';
 const express = require('express');
-const loginService = require('../../services/users/login_');
+const loginService = require('../../services/users/logout_');
 let router = express.Router();
-//router.post('/', loginService.userLogout);
-router.post('/', loginService.userLogin);
+router.post('/', loginService.userLogout);
 module.exports = router;

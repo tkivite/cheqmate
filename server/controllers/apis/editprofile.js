@@ -1,6 +1,6 @@
 'use strict';
 const express = require('express');
-const confirmCodeService = require('../../services/users/confirmcode_');
+const editProfileService = require('../../services/users/edit_profile_');
 let router = express.Router();
-router.post('/', confirmCodeService.confirmCode);
+router.post('/', editProfileService.editProfile);
 module.exports = router;

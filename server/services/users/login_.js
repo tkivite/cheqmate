@@ -171,7 +171,7 @@ function userLogin(request, response) {
 													);
 
 													responseMessage.status_msg =
-														"Your_account_not_confirmed_ye";
+														"Your_account_not_confirmed_yet";
 													responseMessage.status_code = 400;
 													response.status(400).send(responseMessage);
 													conn.release();

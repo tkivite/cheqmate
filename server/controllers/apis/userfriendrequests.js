@@ -1,6 +1,6 @@
 'use strict';
 const express = require('express');
-const registerService = require('../../services/users/register_');
+const userFriendRequestService = require('../../services/users/user_friend_requests_');
 let router = express.Router();
-router.post('/', registerService.registerUser);
+router.post('/', userFriendRequestService.userFriendRequests);
 module.exports = router;
