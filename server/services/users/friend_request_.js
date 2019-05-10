@@ -37,6 +37,12 @@ function friendRequest(request, response) {
       responseMessage.status_code = 400;
       response.status(400).send(responseMessage);
       return;
+    } else if (UtilityFunctions.isStringEmptyOrNull(friend_code_v, 1)) {
+      responseMessage.status_msg = "Friend_must_be_selected";
+      responseMessage.status_code = 400;
+      response.status(400).send(responseMessage);
+      return;
+
     } else {
       mysqlpool.pool
         .getConnection()
