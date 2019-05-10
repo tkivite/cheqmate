@@ -1,26 +1,26 @@
 {
-    "development": {
-        "username": "root",
-        "password": "1SUPERtitus",
-        "database": "cheqmate_test",
-        "host": "localhost",
-        "dialect": "mysql",
-        "multipleStatements": true
-    },
-    "test": {
-        "username": "tkivite",
-        "password": "1SUPERtitus",
-        "database": "cheqmate_test",
-        "host": "69.164.212.85",
-        "dialect": "mysql",
-        "multipleStatements": true
-    },
-    "production": {
-        "username": "tkivite",
-        "password": "1SUPERtitus",
-        "database": "cheqmate_test",
-        "host": "69.164.212.85",
-        "dialect": "mysql",
-        "multipleStatements": true
-    }
+  "development": {
+    "username": "titus",
+    "password": "1SUPERtitus",
+    "database": "cheqmate",
+    "host": "cheqmate.ctna9c1uclwi.us-east-2.rds.amazonaws.com",
+    "dialect": "mysql",
+    "multipleStatements": true
+  },
+  "test": {
+    "username": "titus",
+    "password": "1SUPERtitus",
+    "database": "cheqmate",
+    "host": "cheqmate.ctna9c1uclwi.us-east-2.rds.amazonaws.com",
+    "dialect": "mysql",
+    "multipleStatements": true
+  },
+  "production": {
+    "username": "titus",
+    "password": "1SUPERtitus",
+    "database": "cheqmate",
+    "host": "cheqmate.ctna9c1uclwi.us-east-2.rds.amazonaws.com",
+    "dialect": "mysql",
+    "multipleStatements": true
+  }
 }

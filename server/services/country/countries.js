@@ -12,7 +12,7 @@ function fetchCountries(request, response) {
 
     mysqlpool.getConnection(function (err, conn) {
         if (err) {
-            // console.error('Error connecting: ' + err.stack);
+            console.error(err.stack);
             responseMessage.status_msg = "Error connecting to database";
             responseMessage.status_code = 400;
             response.status(400).send(responseMessage);
