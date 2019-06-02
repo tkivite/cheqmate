@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
+let UtilityFunction = require('./server/common/functions');
 
 
 const app = express();
@@ -19,6 +20,8 @@ app.use(cookieParser());
 app.use(logger('dev'));
 app.use(passport.initialize());
 require('./configs/passport')(passport);
+
+
 // Set up routes
 routes.init(app);
 

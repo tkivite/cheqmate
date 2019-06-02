@@ -1,5 +1,6 @@
 'use strict';
 const express = require('express');
+let UtilityFunction = require('../../common/functions')
 let router = express.Router();
 router.get('/', function (req, res) {
     res.send('This is the version 1 of Cheqmate APIS !');
@@ -19,9 +20,19 @@ const userSearch = require('../../controllers/apis/usersearch');
 router.use('/register', registerController);
 /** sprint 1 - 10 apis*/
 router.use('/registration_user', registerController);
-router.use('/countries_code_get', countryController);
 router.use('/user_confirm_code', confirmCodeController);
 router.use('/user_login', loginController);
+
+router.use(UtilityFunction.verifyToken, function (req, res, next) {
+    // Put some preprocessing here.
+    console.log(res);
+
+    next();
+});
+
+
+router.use('/countries_code_get', countryController);
+
 router.use('/user_generate_random_num', generateRandomNumber);
 router.use('/user_profile', userProfile);
 router.use('/user_logout', userLogout);

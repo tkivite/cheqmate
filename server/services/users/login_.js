@@ -8,7 +8,8 @@ let responseMessage = {
 	user: {
 		u_phone: "",
 		u_token: "",
-		ud_token: ""
+		ud_token: "",
+		access_token: ""
 	}
 };
 // User Login
@@ -36,7 +37,8 @@ function userLogin(request, response) {
 			ud_token_v,
 			u_token_v,
 			u_name_v,
-			u_email_v;
+			u_email_v,
+			user_o;
 
 		if (UtilityFunctions.isStringEmptyOrNull(login_text_v, 1)) {
 			responseMessage.status_msg = "Code_or_email_must_be_entered";
@@ -113,6 +115,7 @@ function userLogin(request, response) {
 										conn.release();
 										return;
 									} else {
+										user_o = result[0];
 										conn.query(
 											"select * from users where(u_code = ? or u_email = ?) and u_password = ? and u_state = 1 and (u_confirm_phone = 1 or u_confirm_email = 1)",
 											[
@@ -257,10 +260,12 @@ function userLogin(request, response) {
 																	}
 																);
 
+																let token = UtilityFunctions.getToken(JSON.parse(JSON.stringify(user_o)));
 																ul_state_v = 1;
 																responseMessage.status_msg =
 																	"Login_successfully";
 																responseMessage.status_code = 201;
+																responseMessage.user.access_token = token;
 
 
 
@@ -441,9 +446,13 @@ function userLogin(request, response) {
 																													});
 																												} else {
 																													ul_state_v = 1;
+
+																													let token = UtilityFunctions.getToken(JSON.parse(JSON.stringify(user_o)));
+
 																													responseMessage.status_msg =
 																														"Login_successfully";
 																													responseMessage.status_code = 201;
+																													responseMessage.user.access_token = token;
 
 
 																													if ((ul_state_v = 1)) {

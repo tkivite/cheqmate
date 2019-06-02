@@ -33,6 +33,38 @@ exports.verifyOrdinaryUser = function (req, res, next) {
     }
 };
 
+exports.verifyToken = function (req, res, next) {
+    // check header or url parameters or post parameters for token
+    //console.log(req);
+    let token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers['authorization'] || req.headers['token'];
+    // decode token
+    console.log(token);
+    if (token) {
+        // verifies secret and checks exp
+        jwt.verify(token, config.secretKey, function (err, decoded) {
+            if (err) {
+                // return false
+                res.status(401).send('You are not authenticated!');
+                // let err = new Error('You are not authenticated!');
+                // err.status = 401;
+                // return next(err);
+            } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;
+                //checkPermission
+                next();
+
+            }
+        });
+    } else {
+        res.status(403).send('No token provided!');
+        // let err = new Error('No token provided!');
+        // err.status = 403;
+        // return next(err);
+        //return false
+    }
+};
+
 exports.generateMD5 = function (str, next) {
     return crypto.createHash('md5').update(str).digest("hex");
 };
