@@ -1,4 +1,7 @@
 'use strict';
+require('dotenv').config({
+  path: './setup.env'
+});
 const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
@@ -10,7 +13,7 @@ const app = express();
 let routes = require('./server/routes');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: false
+  extended: false
 }));
 app.use(cookieParser());
 app.use(logger('dev'));
@@ -19,11 +22,5 @@ require('./configs/passport')(passport);
 // Set up routes
 routes.init(app);
 
-app.get('/', (req, res) => res.send('Hello world!'))
-
-const port = process.env.PORT || 3000
-
-app.listen(port, () =>
-    console.log(`App is listening on port ${port}.`)
-)
-
+var serverless = require('serverless-http');
+module.exports.handler = serverless(app);
