@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "titus",
+    "username": "root",
     "password": "1SUPERtitus",
-    "database": "cheqmate",
-    "host": "cheqmate.ctna9c1uclwi.us-east-2.rds.amazonaws.com",
+    "database": "cheqmate_test",
+    "host": "localhost",
     "dialect": "mysql",
     "multipleStatements": true
   },

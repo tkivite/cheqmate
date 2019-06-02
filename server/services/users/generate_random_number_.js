@@ -9,14 +9,14 @@ let responseMessage = {
 };
 // User Login
 function generateRandomNumber(request, response) {
-    if (!validInput(request)) {
+    if (!request.headers) {
         responseMessage.status_code = 400;
         console.log("invalid data");
         response.status(responseMessage.status_code).send(responseMessage);
     } else {
 
-        let u_token_v = request.body.user.u_token_v,
-            ud_token_v = request.body.user.ud_token_v;
+        let u_token_v = request.headers.user_token,
+            ud_token_v = request.headers.device_token;
 
         let u_id_v = 0,
             grn_random_num_v = 0,
@@ -55,13 +55,16 @@ function generateRandomNumber(request, response) {
                             conn.query("select u_id from users where u_token = ? and u_state= 1 limit 1", [u_token_v],
                                 function (err, result) {
 
+                                    console.log(result);
+
                                     if (err) {
                                         conn.rollback(function () {
                                             throw err;
                                         });
-                                    } else if (result.length > 0) {
-
-                                        u_id_v = result[0].u_id;
+                                    } else {
+                                        if (result.length > 0) {
+                                            u_id_v = result[0].u_id;
+                                        }
 
                                         conn.query("select * from users where u_id=? and u_token=? and u_state=1 and (u_confirm_phone=1 or u_confirm_email=1) limit 1", [u_id_v, u_token_v],
                                             function (err, result) {
@@ -80,7 +83,6 @@ function generateRandomNumber(request, response) {
                                                     u_id_v = result[0].u_id;
                                                     conn.query("select * from user_devices where ud_user_id=? and ud_token=? and ud_logout=0 limit 1", [u_id_v, ud_token_v],
                                                         function (err, result) {
-
                                                             if (err) {
                                                                 conn.rollback(function () {
                                                                     throw err;

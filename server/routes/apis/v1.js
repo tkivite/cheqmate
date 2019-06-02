@@ -32,8 +32,8 @@ router.use('/user_search', userSearch);
 //sprint 2
 
 const friendRequestController = require('../../controllers/apis/friend_request');
-/*
-const phoneNumbersController = require('../../controllers/apis/phone_numbers');
+/*const phoneNumbersController = require('../../controllers/apis/upload_phone_numbers');
+
 const deleteFriendController = require('../../controllers/apis/delete_friend');
 const promotionsController = require('../../controllers/apis/promotions');
 const restaurantDetailsController = require('../../controllers/apis/restaurant_details');
@@ -46,8 +46,8 @@ const promotionsSaveGetController = require('../../controllers/apis/promotions_s
 
 /** sprint 2 - 10 apis*/
 router.use('/user_friend_request', friendRequestController);
-/*
-router.use('/phone_numbers', phoneNumbersController); //upload contacts
+/*router.use('/phone_numbers', phoneNumbersController); //upload contacts
+
 router.use('/users_delete_friend', deleteFriendController);
 router.use('/promotions', promotionsController);
 router.use('/restaurants_details', restaurantDetailsController);

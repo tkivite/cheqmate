@@ -15,14 +15,14 @@ let responseMessage = {
 
 // Friend Requests
 function userFriendRequests(request, response) {
-    if (!validInput(request)) {
+    if (!request.headers) {
         responseMessage.status_code = 400;
         console.log("invalid data");
         response.status(responseMessage.status_code).send(responseMessage);
     } else {
 
-        let u_token_v = request.body.user.u_token_v,
-            ud_token_v = request.body.user.ud_token_v;
+        let u_token_v = request.headers.user_token,
+            ud_token_v = request.headers.device_token;
 
         let u_id_v = 0;
 
@@ -75,7 +75,7 @@ function userFriendRequests(request, response) {
                                                 } else if (result.length == 0) {
                                                     responseMessage.status_msg = "User_not_exists";
                                                     responseMessage.status_code = 404;
-                                                    //response.status(responseMessage.status_code).send(responseMessage);
+                                                    response.status(responseMessage.status_code).send(responseMessage);
                                                     return;
                                                 } else {
 
@@ -89,7 +89,7 @@ function userFriendRequests(request, response) {
                                                             } else if (result.length == 0) {
                                                                 responseMessage.status_msg = "User_device_not_exists";
                                                                 responseMessage.status_code = 404;
-                                                                // response.status(responseMessage.status_code).send(responseMessage);
+                                                                response.status(responseMessage.status_code).send(responseMessage);
                                                                 return;
                                                             } else {
 
