@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const saltRounds = 10;
 exports.getToken = function (user) {
     return jwt.sign(user, config.secretKey, {
-        expiresIn: 3600
+        expiresIn: 86400
     });
 };
 exports.verifyOrdinaryUser = function (req, res, next) {

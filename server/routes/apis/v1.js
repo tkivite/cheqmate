@@ -16,12 +16,16 @@ const userLogout = require('../../controllers/apis/userlogout');
 const editProfile = require('../../controllers/apis/editprofile');
 const userFriendRequests = require('../../controllers/apis/userfriendrequests');
 const userSearch = require('../../controllers/apis/usersearch');
+const changePassword = require('../../controllers/apis/changepassword');
+
 
 router.use('/register', registerController);
 /** sprint 1 - 10 apis*/
 router.use('/registration_user', registerController);
 router.use('/user_confirm_code', confirmCodeController);
 router.use('/user_login', loginController);
+router.use('/change_password', changePassword);
+
 
 router.use(UtilityFunction.verifyToken, function (req, res, next) {
     // Put some preprocessing here.
