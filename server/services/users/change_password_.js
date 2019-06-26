@@ -21,7 +21,6 @@ function changePassword(request, response) {
       u_password_v = request.body.user.u_password_v,
       u_phone_v = request.body.user.u_phone_v,
       u_email_v = request.body.user.u_email_v;
-
     let u_id_v = 0;
 
     if (UtilityFunctions.isStringEmptyOrNull(u_token_v, 1)) {

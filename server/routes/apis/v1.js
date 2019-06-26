@@ -76,7 +76,31 @@ router.use('/user_promotions_save_get', promotionsSaveGetController);
 
 */
 
+/** sprint 3 - The Cheque Process*/
 
+const userChequeRequestController = require('../../controllers/apis/cheque/user_cheque_request');
+const receiveChequeResponseController = require('../../controllers/apis/cheque/receive_cheque_response');
+/*const chooseChequeFriendsController = require('../../controllers/apis/choose_cheque_friends');
+const chooseItemsFromChequesController = require('../../controllers/apis/choose_items_from_cheques');
+const activityLogController = require('../../controllers/apis/activity_log');
+const validateChequeData = require('../../controllers/apis/validate_cheque_data');
+const chequeFriendsController = require('../../controllers/apis/cheque_friends');
+const userItemsController = require('../../controllers/apis/user_items');
+const chequeSplitController = require('../../controllers/apis/cheque_split');
+const userSplitController = require('../../controllers/apis/user_split');*/
+
+
+router.use('/user_cheque_request', userChequeRequestController);
+router.use('/receive_cheque_response', receiveChequeResponseController);
+/*router.use('/choose_cheque_friends', chooseChequeFriendsController);
+router.use('/choose_items_from_cheques', chooseItemsFromChequesController);
+router.use('/activity_log', activityLogController);
+router.use('/validate_cheque_data', validateChequeData);
+router.use('/cheque_friends', chequeFriendsController);
+router.use('/user_items', userItemsController);
+router.use('/cheque_split', chequeSplitController);
+router.use('/user_split', userSplitController);
+*/
 
 
 
